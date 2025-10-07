@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 import crypto from 'crypto';
 import compression from 'compression';
 import helmet from 'helmet';
@@ -91,12 +92,18 @@ app.post('/api/verify', (req, res) => {
     }
 });
 
-// Serve static frontend
+// Optional: serve static frontend only if present and enabled
 const distPath = path.resolve(__dirname, 'dist');
-app.use(express.static(distPath));
-app.get('*', (_req, res) => {
-    res.sendFile(path.resolve(distPath, 'index.html'));
-});
+const serveStatic = process.env.SERVE_STATIC === 'true' && fs.existsSync(path.join(distPath, 'index.html'));
+if (serveStatic) {
+    app.use(express.static(distPath));
+    app.get('*', (_req, res) => {
+        res.sendFile(path.resolve(distPath, 'index.html'));
+    });
+} else {
+    // Health endpoint for platform checks
+    app.get('/health', (_req, res) => res.json({ ok: true }));
+}
 
 app.listen(PORT, () => {
     // eslint-disable-next-line no-console
