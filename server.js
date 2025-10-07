@@ -19,6 +19,15 @@ app.use(helmet({
 app.use(compression());
 app.use(express.json());
 
+// Basic CORS for frontend domains (Netlify/Telegram webview)
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') return res.sendStatus(204);
+    next();
+});
+
 // Verify Telegram initData per https://core.telegram.org/bots/webapps#validating-data-received-via-the-web-app
 function getTelegramSecretKey(botToken) {
     return crypto.createHash('sha256').update(botToken).digest();
