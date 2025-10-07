@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EscrowX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary': '#4E9AF1',
+              'primary-hover': '#6babf4',
+              'success': '#2ECC71',
+              'warning': '#F39C12',
+              'danger': '#E74C3C',
+              'background': '#0A0C10',
+              'surface': '#1A1F27',
+              'surface-alt': '#161A21',
+              'text-heading': '#FFFFFF',
+              'text-body': '#B0B3B8',
+              'border-color': 'rgba(255, 255, 255, 0.1)',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            borderRadius: {
+              '2xl': '16px',
+            },
+            boxShadow: {
+              'glow-primary': '0 0 20px rgba(78, 154, 241, 0.3)',
+              'glow-success': '0 0 20px rgba(46, 204, 113, 0.3)',
+              'glow-danger': '0 0 20px rgba(231, 76, 60, 0.3)',
+            },
+            backgroundImage: {
+              'gradient-primary': 'linear-gradient(to right, #4E9AF1, #6156f5)',
+              'gradient-dark': 'linear-gradient(180deg, #0E1117 0%, #0A0C10 100%)',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-10px)' },
+              }
+            },
+            animation: {
+              float: 'float 6s ease-in-out infinite',
+            }
+          }
+        }
+      }
+    </script>
+  
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-background">
+    <div id="root"></div>
+  <script>
+    (function(){
+      var isAdmin = window.location.pathname.startsWith('/admin');
+      var script = document.createElement('script');
+      script.type = 'module';
+      script.src = isAdmin ? '/admin.tsx' : '/index.tsx';
+      document.body.appendChild(script);
+    })();
+  </script>
+</body>
+</html>
